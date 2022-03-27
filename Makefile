@@ -1,24 +1,26 @@
 NAME = pipex
 
-#SRC = 
+SRC = pipex.c error.c rest_func.c
 
 CC = gcc
 
-CFLAGS = -I.
+CFLAGS = -Wall -Wextra -Werror -I.
 
-#OBJECT = $(SRC:.c=.o)
+OBJECT = $(SRC:.c=.o)
 
-all :
+all : $(NAME)
+
+$(NAME) : $(OBJECT)	
 	make -C libft/
-	gcc pipex.c libft/libft.a $(CFLAGS) -o $(NAME) 
-
-	
+	gcc  libft/libft.a $(CFLAGS) $(OBJECT) -o $(NAME) 
 
 clean :
 	make fclean -C libft/
+	rm -rf $(OBJECT)
 
 fclean : clean
 	rm -rf $(NAME)
+	rm -rf outfile
 
 re : fclean all
 
