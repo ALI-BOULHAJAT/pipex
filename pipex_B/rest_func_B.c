@@ -6,30 +6,16 @@
 /*   By: aboulhaj <aboulhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/27 17:55:49 by aboulhaj          #+#    #+#             */
-/*   Updated: 2022/03/27 17:56:08 by aboulhaj         ###   ########.fr       */
+/*   Updated: 2022/03/30 15:35:17 by aboulhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_B.h"
 
-static void	ft_free(t_pip *pip, char **cmd1, char **cmd2)
+static void	ft_free(t_pip *pip)
 {
 	int	i;
 
-	i = 0;
-	while (cmd1[i])
-	{
-		free(cmd1[i]);
-		i++;
-	}
-	free(cmd1);
-	i = 0;
-	while (cmd2[i])
-	{
-		free(cmd2[i]);
-		i++;
-	}
-	free(cmd2);
 	i = 0;
 	while (pip->pre_var[i])
 	{
@@ -67,19 +53,26 @@ static void	check_boucle(t_pip *pip, char **cmd)
 
 void	pre_check_cmd(t_pip *pip)
 {
-	char	**cmd1;
-	char	**cmd2;
+	char	**cmd;
+	int		x;
+	int		i;
 
+	x = 1;
 	ft_path(pip);
-	cmd1 = ft_split(pip->argv[2], ' ');
-	cmd2 = ft_split(pip->argv[3], ' ');
-	if (access(cmd1[0], X_OK) == 0)
+	while (x <= pip->n_cmd)
 	{
-		return ;
+		cmd = ft_split(pip->argv[x + 1], ' ');
+		if (access(cmd[0], X_OK) == 0)
+			return ;
+		check_boucle(pip, cmd);
+		i = 0;
+		while (cmd[i])
+		{
+			free(cmd[i]);
+			i++;
+		}
+		free(cmd);
+		x++;
 	}
-	if (access(cmd2[0], X_OK) == 0)
-		return ;
-	check_boucle(pip, cmd1);
-	check_boucle(pip, cmd2);
-	ft_free(pip, cmd1, cmd2);
+	ft_free(pip);
 }

@@ -6,12 +6,12 @@
 /*   By: aboulhaj <aboulhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/27 17:39:41 by aboulhaj          #+#    #+#             */
-/*   Updated: 2022/03/30 11:21:24 by aboulhaj         ###   ########.fr       */
+/*   Updated: 2022/03/30 14:48:21 by aboulhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_BONUS_H
-# define PIPEX_BONUS_H
+#ifndef PIPEX_B_H
+# define PIPEX_B_H
 
 # include <stdio.h>
 # include "libft/libft.h"

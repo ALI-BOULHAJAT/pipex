@@ -6,7 +6,7 @@
 /*   By: aboulhaj <aboulhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/30 11:13:24 by aboulhaj          #+#    #+#             */
-/*   Updated: 2022/03/30 12:52:10 by aboulhaj         ###   ########.fr       */
+/*   Updated: 2022/03/30 14:47:34 by aboulhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,6 @@ void	child(t_pip *pip, int id, int check, int n_cmd)
 		ft_path(pip);
 		ft_dup(pip, check);
 		cmd = ft_split(pip->argv[ac], ' ');
-		write(2, cmd[0], 4);
-		write(2, &n_cmd, 1);
-		write(2, "\n", 1);
 		if (access(cmd[0], X_OK) == 0)
 			execve(cmd[0], cmd, pip->envp);
 		j = 0;
@@ -103,27 +100,13 @@ void	pre_child(t_pip *pip)
 		if (pip->p_id >= 0)
 		{
 			pip->id = fork();
-			// if (pip->id == 0)
-			// {
-				// write(1, "1", 1);
-				// write(1, "\n", 1);
-				if (x == pip->n_cmd)
-				{
-					child(pip, pip->id, 2, x);
-					pip->infile = pip->fd[0];
-					//write(2, &x, 1);
-					write(1, "\n", 1);
-					x++;
-				}
-				else
-				{
-					child(pip, pip->id, 1, x);
-					pip->infile = dup(pip->fd[0]);
-					close(pip->fd[1]);
-					write(1, "\n", 1);
-					x++;
-				}
-			//}
+			if (x == pip->n_cmd)
+				child(pip, pip->id, 2, x);
+			else
+				child(pip, pip->id, 1, x);
+			pip->infile = dup(pip->fd[0]);
+			close(pip->fd[1]);
+			x++;
 		}
 	}
 }
