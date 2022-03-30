@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   pipex_B.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aboulhaj <aboulhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/03 16:27:16 by aboulhaj          #+#    #+#             */
-/*   Updated: 2022/03/27 16:20:28 by aboulhaj         ###   ########.fr       */
+/*   Created: 2022/03/27 17:39:41 by aboulhaj          #+#    #+#             */
+/*   Updated: 2022/03/30 11:21:24 by aboulhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#ifndef PIPEX_BONUS_H
+# define PIPEX_BONUS_H
 
 # include <stdio.h>
 # include "libft/libft.h"
@@ -29,6 +29,7 @@ typedef struct pip
 	int		infile;
 	int		interfile;
 	int		outfile;
+	int		fdc;
 	int		p_id;
 	int		fd[2];
 	int		id;
@@ -36,10 +37,11 @@ typedef struct pip
 	int		check_last;
 	int		check;
 	int		double_check;
+	int		n_cmd;
 }	t_pip;
 
 void	ft_path(t_pip *pip);
-void	child(t_pip *pip, int id, int check);
+void	child(t_pip *pip, int id, int check, int n_cmd);
 void	pre_child(t_pip *pip);
 void	err_argv(void);
 void	err_envp(void);
