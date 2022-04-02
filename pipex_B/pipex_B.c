@@ -6,7 +6,7 @@
 /*   By: aboulhaj <aboulhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/30 11:13:24 by aboulhaj          #+#    #+#             */
-/*   Updated: 2022/03/30 14:47:34 by aboulhaj         ###   ########.fr       */
+/*   Updated: 2022/04/01 14:56:43 by aboulhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,27 +88,14 @@ void	pre_child(t_pip *pip)
 	int	last;
 
 	x = 1;
+	pip->n_cmd -= 3;
 	last = pip->n_cmd + 2;
-	pre_check_cmd(pip);
+	pre_check_cmd(pip, 1);
 	pip->infile = open(pip->argv[1], O_RDONLY, 0777);
 	pip->outfile = open(pip->argv[last], O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if (pip->outfile < 0 || pip->infile < 0)
 		err_file(pip->argv[1]);
-	while (x <= pip->n_cmd)
-	{
-		pip->p_id = pipe(pip->fd);
-		if (pip->p_id >= 0)
-		{
-			pip->id = fork();
-			if (x == pip->n_cmd)
-				child(pip, pip->id, 2, x);
-			else
-				child(pip, pip->id, 1, x);
-			pip->infile = dup(pip->fd[0]);
-			close(pip->fd[1]);
-			x++;
-		}
-	}
+	while_cmd(pip, 0);
 }
 
 int	main(int ac, char **av, char **envp)
@@ -127,15 +114,13 @@ int	main(int ac, char **av, char **envp)
 			exit(1);
 		pip->envp = envp;
 		pip->argv = av;
-		pip->n_cmd = ac - 3;
-		pre_child(pip);
+		pip->n_cmd = ac;
+		if (!ft_strcmp(pip->argv[1], "here_doc"))
+			ft_heredoc(pip);
+		else
+			pre_child(pip);
 	}
 	else
 		err_argv();
-	close(pip->fd[1]);
-	close(pip->fd[0]);
-	waitpid(pip->id, NULL, 0);
-	waitpid(pip->id2, NULL, 0);
-	free(pip);
-	return (0);
+	ft_close(pip);
 }

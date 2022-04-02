@@ -1,8 +1,7 @@
 NAME = pipex
 
 SRC = pipex_M/pipex.c pipex_M/error.c pipex_M/rest_func.c
-SRC_BONUS = pipex_B/pipex_B.c pipex_B/error_B.c pipex_B/rest_func_B.c
-
+SRC_BONUS = pipex_B/pipex_B.c pipex_B/error_B.c pipex_B/rest_func_B.c pipex_B/get_next_line.c pipex_B/rest_func_B2.c
 CC = gcc
 
 CFLAGS = -Wall -Wextra -Werror -I.
@@ -29,6 +28,7 @@ clean :
 fclean : clean
 	rm -rf $(NAME)
 	rm -rf outfile
+	rm -rf .infile
 
 re : fclean all
 
