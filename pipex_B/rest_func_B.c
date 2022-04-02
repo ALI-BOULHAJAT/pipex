@@ -6,7 +6,7 @@
 /*   By: aboulhaj <aboulhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/27 17:55:49 by aboulhaj          #+#    #+#             */
-/*   Updated: 2022/04/01 15:05:22 by aboulhaj         ###   ########.fr       */
+/*   Updated: 2022/04/02 11:56:04 by aboulhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ void	pre_check_cmd(t_pip *pip, int n)
 	while (x <= pip->n_cmd)
 	{
 		cmd = ft_split(pip->argv[x + n], ' ');
+		if (cmd[0] == NULL)
+			err_cmd("");
 		if (access(cmd[0], X_OK) == 0)
 			return ;
 		check_boucle(pip, cmd);
@@ -81,7 +83,9 @@ void	ft_heredoc(t_pip *pip)
 {
 	char	*input;
 
-	pip->infile = open(".infile", O_RDWR | O_RDONLY | O_CREAT | O_TRUNC, 0777);
+	pip->n_cmd -= 4;
+	pre_check_cmd(pip, 2);
+	pip->infile = open(".infile", O_RDWR | O_CREAT | O_TRUNC, 0777);
 	while (1)
 	{
 		ft_putstr_fd("pipe heredoc>", 1);
@@ -104,11 +108,9 @@ void	pre_child_hdoc(t_pip *pip)
 	int	last;
 
 	x = 1;
-	pip->n_cmd -= 4;
 	last = pip->n_cmd + 3;
-	pre_check_cmd(pip, 2);
 	pip->infile = open(".infile", O_RDONLY, 0777);
-	pip->outfile = open(pip->argv[last], O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	pip->outfile = open(pip->argv[last], O_WRONLY | O_CREAT | O_APPEND, 0777);
 	if (pip->outfile < 0 || pip->infile < 0)
 		err_file(pip->argv[1]);
 	while_cmd(pip, 1);

@@ -6,7 +6,7 @@
 /*   By: aboulhaj <aboulhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/30 11:13:24 by aboulhaj          #+#    #+#             */
-/*   Updated: 2022/04/01 14:56:43 by aboulhaj         ###   ########.fr       */
+/*   Updated: 2022/04/02 11:29:37 by aboulhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	pre_child(t_pip *pip)
 	pip->n_cmd -= 3;
 	last = pip->n_cmd + 2;
 	pre_check_cmd(pip, 1);
-	pip->infile = open(pip->argv[1], O_RDONLY, 0777);
+	pip->infile = open(pip->argv[1], O_RDONLY);
 	pip->outfile = open(pip->argv[last], O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if (pip->outfile < 0 || pip->infile < 0)
 		err_file(pip->argv[1]);

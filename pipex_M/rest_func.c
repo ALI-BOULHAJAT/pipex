@@ -6,7 +6,7 @@
 /*   By: aboulhaj <aboulhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/27 12:38:42 by aboulhaj          #+#    #+#             */
-/*   Updated: 2022/03/27 15:53:57 by aboulhaj         ###   ########.fr       */
+/*   Updated: 2022/04/02 11:53:05 by aboulhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ void	pre_check_cmd(t_pip *pip)
 	ft_path(pip);
 	cmd1 = ft_split(pip->argv[2], ' ');
 	cmd2 = ft_split(pip->argv[3], ' ');
+	if (cmd1[0] == NULL || cmd2[0] == NULL)
+		err_cmd("");
 	if (access(cmd1[0], X_OK) == 0)
 	{
 		return ;
